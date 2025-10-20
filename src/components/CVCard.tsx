@@ -1,6 +1,6 @@
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { FileText, Copy, Trash2, Calendar } from "lucide-react";
+import { FileText, Calendar } from "lucide-react";
 
 interface CVCardProps {
   id: string;
@@ -8,8 +8,6 @@ interface CVCardProps {
   template: string;
   updatedDate: string;
   onEdit: (id: string) => void;
-  onCopy?: (id: string) => void;
-  onDelete?: (id: string) => void;
 }
 
 export const CVCard = ({ 
@@ -17,9 +15,7 @@ export const CVCard = ({
   name, 
   template, 
   updatedDate, 
-  onEdit,
-  onCopy,
-  onDelete 
+  onEdit
 }: CVCardProps) => {
   return (
     <Card className="overflow-hidden hover:shadow-lg transition-shadow">
@@ -47,29 +43,9 @@ export const CVCard = ({
         </div>
 
         {/* Actions */}
-        <div className="flex items-center justify-between pt-2">
-          <div className="flex gap-2">
-            {onCopy && (
-              <button
-                onClick={() => onCopy(id)}
-                className="p-2 hover:bg-muted rounded-lg transition-colors"
-                aria-label="Copy CV"
-              >
-                <Copy className="w-4 h-4 text-muted-foreground" />
-              </button>
-            )}
-            {onDelete && (
-              <button
-                onClick={() => onDelete(id)}
-                className="p-2 hover:bg-muted rounded-lg transition-colors"
-                aria-label="Delete CV"
-              >
-                <Trash2 className="w-4 h-4 text-destructive" />
-              </button>
-            )}
-          </div>
-          <Button onClick={() => onEdit(id)} size="sm">
-            Edit
+        <div className="flex items-center justify-end pt-2">
+          <Button onClick={() => onEdit(id)} size="lg" className="w-full">
+            Select Resume
           </Button>
         </div>
       </div>

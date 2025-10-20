@@ -40,9 +40,9 @@ export const CVDashboard = ({ onSelectCV, onUploadNew }: CVDashboardProps) => {
           <div className="flex items-start justify-between">
             <div>
               <h1 className="text-3xl font-bold text-foreground mb-2">My CVs</h1>
-              <p className="text-muted-foreground">Manage and organize your professional resumes</p>
+              <p className="text-muted-foreground">Select a resume to grade and get detailed feedback</p>
             </div>
-            <div className="flex gap-3">
+            <div>
               <label htmlFor="upload-new-cv">
                 <input
                   id="upload-new-cv"
@@ -51,17 +51,13 @@ export const CVDashboard = ({ onSelectCV, onUploadNew }: CVDashboardProps) => {
                   onChange={handleFileUpload}
                   className="hidden"
                 />
-                <Button asChild variant="outline" className="gap-2">
+                <Button asChild className="gap-2">
                   <span className="cursor-pointer">
                     <Upload className="w-4 h-4" />
                     Upload CV
                   </span>
                 </Button>
               </label>
-              <Button className="gap-2">
-                <Plus className="w-4 h-4" />
-                Create New CV
-              </Button>
             </div>
           </div>
         </div>
@@ -78,8 +74,6 @@ export const CVDashboard = ({ onSelectCV, onUploadNew }: CVDashboardProps) => {
               template={cv.template}
               updatedDate={cv.updatedDate}
               onEdit={onSelectCV}
-              onCopy={(id) => console.log("Copy", id)}
-              onDelete={(id) => console.log("Delete", id)}
             />
           ))}
 
