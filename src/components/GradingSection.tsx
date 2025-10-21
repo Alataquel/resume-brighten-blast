@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils";
 interface ProCon {
   text: string;
   tips?: string[];
+  highlightId?: string;
 }
 
 interface GradingSectionProps {
@@ -16,6 +17,7 @@ interface GradingSectionProps {
   pros: ProCon[];
   cons: ProCon[];
   suggestedContent?: string;
+  onHighlight?: (id: string | null) => void;
 }
 
 const iconMap = {
@@ -34,6 +36,7 @@ export const GradingSection = ({
   pros,
   cons,
   suggestedContent,
+  onHighlight,
 }: GradingSectionProps) => {
   const [expandedTips, setExpandedTips] = useState<Set<string>>(new Set());
   const Icon = iconMap[icon];
@@ -113,8 +116,13 @@ export const GradingSection = ({
           </div>
           <div className="space-y-3">
             {cons.map((con, index) => (
-              <div key={`con-${index}`} className="space-y-2">
-                <div className="flex gap-2">
+              <div 
+                key={`con-${index}`} 
+                className="space-y-2"
+                onMouseEnter={() => con.highlightId && onHighlight?.(con.highlightId)}
+                onMouseLeave={() => onHighlight?.(null)}
+              >
+                <div className="flex gap-2 cursor-pointer">
                   <XCircle className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" />
                   <p className="text-sm text-foreground">{con.text}</p>
                 </div>
