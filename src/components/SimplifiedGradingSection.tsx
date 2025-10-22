@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ChevronDown, CheckCircle2, XCircle, User, Briefcase, GraduationCap, Lightbulb, AlignLeft } from "lucide-react";
+import { ChevronDown, CheckCircle2, XCircle, User, Briefcase, GraduationCap, Lightbulb, AlignLeft, FileText } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 
@@ -10,7 +10,7 @@ interface ProCon {
 
 interface SimplifiedGradingSectionProps {
   title: string;
-  icon: "contact" | "experience" | "education" | "skills" | "summary";
+  icon: "contact" | "experience" | "education" | "skills" | "summary" | "format";
   prosCount: number;
   consCount: number;
   pros: ProCon[];
@@ -24,6 +24,7 @@ const iconMap = {
   education: GraduationCap,
   skills: Lightbulb,
   summary: AlignLeft,
+  format: FileText,
 };
 
 export const SimplifiedGradingSection = ({
@@ -49,20 +50,20 @@ export const SimplifiedGradingSection = ({
   };
 
   return (
-    <div className="border-b border-border pb-6">
+    <div className="border border-border rounded-lg p-6 bg-card">
       {/* Header */}
-      <div className="flex items-center gap-3 mb-4">
+      <div className="flex items-center gap-3 mb-6">
         <Icon className="w-5 h-5 text-muted-foreground" />
-        <h3 className="text-lg font-semibold text-foreground">{title}</h3>
+        <h3 className="text-base font-semibold text-foreground">{title}</h3>
       </div>
 
       {/* Content Grid */}
-      <div className="grid md:grid-cols-2 gap-8">
+      <div className="grid md:grid-cols-2 gap-6">
         {/* Pros */}
         <div className="space-y-3">
-          <div className="flex items-center gap-2 mb-3">
-            <h4 className="font-semibold text-foreground">Pros</h4>
-            <Badge variant="secondary" className="bg-green-100 text-green-700 hover:bg-green-100">
+          <div className="flex items-center gap-2 mb-4">
+            <h4 className="font-medium text-foreground">Pros</h4>
+            <Badge variant="secondary" className="bg-green-50 text-green-700 hover:bg-green-50 border-0">
               {prosCount}
             </Badge>
           </div>
@@ -105,9 +106,9 @@ export const SimplifiedGradingSection = ({
 
         {/* Cons */}
         <div className="space-y-3">
-          <div className="flex items-center gap-2 mb-3">
-            <h4 className="font-semibold text-foreground">Cons</h4>
-            <Badge variant="secondary" className="bg-red-100 text-red-700 hover:bg-red-100">
+          <div className="flex items-center gap-2 mb-4">
+            <h4 className="font-medium text-foreground">Cons</h4>
+            <Badge variant="secondary" className="bg-red-50 text-red-700 hover:bg-red-50 border-0">
               {consCount}
             </Badge>
           </div>
@@ -152,8 +153,8 @@ export const SimplifiedGradingSection = ({
       {/* Suggested Content */}
       {suggestedContent && (
         <div className="mt-6 pt-6 border-t border-border">
-          <h4 className="text-sm font-medium text-foreground mb-2">Suggested content</h4>
-          <p className="text-sm text-muted-foreground leading-relaxed">{suggestedContent}</p>
+          <h4 className="text-sm font-semibold text-foreground mb-3">Suggested content</h4>
+          <p className="text-sm text-foreground leading-relaxed">{suggestedContent}</p>
         </div>
       )}
     </div>
