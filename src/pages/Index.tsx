@@ -28,7 +28,7 @@ const Index = () => {
 
   // Show upload view
   if (appState === "upload") {
-    return <UploadInterface onUpload={handleUpload} />;
+    return <UploadInterface onUpload={handleUpload} onReview={() => setAppState("results")} />;
   }
 
   // Show loading state

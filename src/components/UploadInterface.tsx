@@ -5,9 +5,10 @@ import { Badge } from "@/components/ui/badge";
 
 interface UploadInterfaceProps {
   onUpload: (file: File) => void;
+  onReview: () => void;
 }
 
-export const UploadInterface = ({ onUpload }: UploadInterfaceProps) => {
+export const UploadInterface = ({ onUpload, onReview }: UploadInterfaceProps) => {
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file && file.type === "application/pdf") {
@@ -85,7 +86,7 @@ export const UploadInterface = ({ onUpload }: UploadInterfaceProps) => {
                 size="lg" 
                 variant="secondary" 
                 className="w-full"
-                onClick={() => document.getElementById('cv-upload')?.click()}
+                onClick={onReview}
               >
                 Review my resume
               </Button>
