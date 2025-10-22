@@ -81,7 +81,12 @@ export const UploadInterface = ({ onUpload }: UploadInterfaceProps) => {
                 </label>
               </div>
 
-              <Button size="lg" variant="secondary" className="w-full">
+              <Button 
+                size="lg" 
+                variant="secondary" 
+                className="w-full"
+                onClick={() => document.getElementById('cv-upload')?.click()}
+              >
                 Review my resume
               </Button>
             </Card>
