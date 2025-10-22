@@ -1,17 +1,20 @@
 import { useState, useEffect } from "react";
 import { UploadInterface } from "@/components/UploadInterface";
-import { LoadingState } from "@/components/LoadingState";
 import { SimplifiedGradingSection } from "@/components/SimplifiedGradingSection";
 import { Button } from "@/components/ui/button";
 
-type AppState = "upload" | "loading" | "results";
+type AppState = "idle" | "loading" | "results";
 
 const Index = () => {
-  const [appState, setAppState] = useState<AppState>("upload");
+  const [appState, setAppState] = useState<AppState>("idle");
   const [selectedCV, setSelectedCV] = useState<string | null>(null);
 
   const handleUpload = (file: File) => {
     setSelectedCV(file.name);
+    setAppState("loading");
+  };
+
+  const handleReview = () => {
     setAppState("loading");
   };
 
@@ -26,47 +29,41 @@ const Index = () => {
     }
   }, [appState]);
 
-  // Show upload view
-  if (appState === "upload") {
-    return <UploadInterface onUpload={handleUpload} onReview={() => setAppState("results")} />;
-  }
-
-  // Show loading state
-  if (appState === "loading") {
-    return <LoadingState />;
-  }
-
-  // Results View
   return (
     <div className="min-h-screen bg-background">
-      {/* Header */}
-      <header className="border-b border-border bg-card">
-        <div className="container mx-auto px-8 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-6">
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => setAppState("upload")}
-                className="text-muted-foreground hover:text-foreground"
-              >
-                ← Back
-              </Button>
-              <h1 className="text-2xl font-bold text-foreground">Resume Grading Results</h1>
-            </div>
-            <div className="flex items-center gap-3">
-              <span className="text-sm text-muted-foreground">Overall Score</span>
-              <div className="flex items-center gap-2">
-                <div className="text-3xl font-bold text-warning">55</div>
-                <span className="text-muted-foreground text-lg">/100</span>
-              </div>
+      {/* Always show upload interface */}
+      <UploadInterface onUpload={handleUpload} onReview={handleReview} />
+
+      {/* Show loading or results below */}
+      {appState === "loading" && (
+        <div className="container mx-auto px-6 py-12 max-w-5xl">
+          <div className="flex items-center justify-center py-20">
+            <div className="text-center">
+              <div className="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+              <p className="text-lg text-muted-foreground">Analyzing your resume...</p>
             </div>
           </div>
         </div>
-      </header>
+      )}
 
-      {/* Main Content - Single Column */}
-      <main className="container mx-auto px-8 py-8 max-w-5xl">
+      {appState === "results" && (
+        <div className="border-t border-border bg-card">
+          {/* Results Header */}
+          <div className="container mx-auto px-8 py-6">
+            <div className="flex items-center justify-between">
+              <h2 className="text-2xl font-bold text-foreground">Resume Grading Results</h2>
+              <div className="flex items-center gap-3">
+                <span className="text-sm text-muted-foreground">Overall Score</span>
+                <div className="flex items-center gap-2">
+                  <div className="text-3xl font-bold text-warning">55</div>
+                  <span className="text-muted-foreground text-lg">/100</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Main Content - Single Column */}
+          <main className="container mx-auto px-8 py-8 max-w-5xl">
         <div className="space-y-6">
           {/* Score Progress */}
           <div className="border border-border rounded-lg p-6 bg-card">
@@ -193,8 +190,10 @@ const Index = () => {
             ]}
             cons={[]}
           />
-        </div>
-      </main>
+          </div>
+        </main>
+      </div>
+      )}
     </div>
   );
 };
