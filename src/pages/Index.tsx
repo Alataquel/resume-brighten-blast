@@ -1,9 +1,8 @@
 import { useState, useEffect } from "react";
 import { UploadInterface } from "@/components/UploadInterface";
 import { LoadingState } from "@/components/LoadingState";
-import { GradingSection } from "@/components/GradingSection";
+import { SimplifiedGradingSection } from "@/components/SimplifiedGradingSection";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
 
 type AppState = "upload" | "loading" | "results";
 
@@ -39,28 +38,27 @@ const Index = () => {
 
   // Results View
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background flex flex-col">
       {/* Header */}
-      <header className="border-b border-border bg-card sticky top-0 z-50">
-        <div className="container mx-auto px-6 py-4">
+      <header className="border-b border-border bg-card">
+        <div className="container mx-auto px-8 py-4">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-6">
               <Button
                 variant="ghost"
                 size="sm"
                 onClick={() => setAppState("upload")}
+                className="text-muted-foreground hover:text-foreground"
               >
                 ← Back
               </Button>
-              <div>
-                <h1 className="text-xl font-bold text-foreground">Resume Grading Results</h1>
-              </div>
+              <h1 className="text-2xl font-bold text-foreground">Resume Grading Results</h1>
             </div>
             <div className="flex items-center gap-3">
               <span className="text-sm text-muted-foreground">Overall Score</span>
               <div className="flex items-center gap-2">
-                <div className="text-2xl font-bold text-warning">55</div>
-                <span className="text-muted-foreground">/100</span>
+                <div className="text-3xl font-bold text-foreground">55</div>
+                <span className="text-muted-foreground text-lg">/100</span>
               </div>
             </div>
           </div>
@@ -68,27 +66,27 @@ const Index = () => {
       </header>
 
       {/* Main Content - Split View */}
-      <main className="h-[calc(100vh-73px)] overflow-hidden">
+      <main className="flex-1 overflow-hidden">
         <div className="grid lg:grid-cols-2 h-full">
           {/* Left: Feedback Sections */}
-          <div className="overflow-y-auto p-6 space-y-4 bg-background">
-            <div className="max-w-2xl space-y-4">
+          <div className="overflow-y-auto p-8 bg-background border-r border-border">
+            <div className="max-w-2xl space-y-8">
               {/* Score Progress */}
-              <Card className="p-4">
+              <div className="bg-muted/30 rounded-lg p-6">
                 <div className="flex items-center justify-between mb-3">
-                  <h2 className="text-sm font-semibold text-foreground">Overall Score</h2>
-                  <div className="text-xl font-bold text-warning">55/100</div>
+                  <h2 className="text-sm font-medium text-foreground">Overall Score</h2>
+                  <div className="text-3xl font-bold text-foreground">55/100</div>
                 </div>
-                <div className="w-full bg-muted rounded-full h-2">
+                <div className="w-full bg-muted rounded-full h-3">
                   <div
-                    className="bg-warning rounded-full h-2 transition-all"
+                    className="bg-primary rounded-full h-3 transition-all"
                     style={{ width: "55%" }}
                   />
                 </div>
-              </Card>
+              </div>
 
               {/* Contact Section */}
-              <GradingSection
+              <SimplifiedGradingSection
                 title="Contact"
                 icon="contact"
                 prosCount={3}
@@ -111,7 +109,7 @@ const Index = () => {
               />
 
               {/* Experiences Section */}
-              <GradingSection
+              <SimplifiedGradingSection
                 title="Experiences"
                 icon="experience"
                 prosCount={4}
@@ -131,7 +129,7 @@ const Index = () => {
               />
 
               {/* Education Section */}
-              <GradingSection
+              <SimplifiedGradingSection
                 title="Education"
                 icon="education"
                 prosCount={3}
@@ -150,7 +148,7 @@ const Index = () => {
               />
 
               {/* Skills Section */}
-              <GradingSection
+              <SimplifiedGradingSection
                 title="Skills"
                 icon="skills"
                 prosCount={0}
@@ -165,7 +163,7 @@ const Index = () => {
               />
 
               {/* Summary Section */}
-              <GradingSection
+              <SimplifiedGradingSection
                 title="Summary"
                 icon="summary"
                 prosCount={0}
@@ -183,91 +181,95 @@ const Index = () => {
           </div>
 
           {/* Right: CV Preview */}
-          <div className="bg-muted/30 border-l border-border overflow-y-auto">
-            <div className="p-8">
-              <Card className="max-w-3xl mx-auto bg-white shadow-lg">
-                <div className="p-12 space-y-6">
-                  {/* Header */}
-                  <div className="text-center border-b-2 border-primary pb-4">
-                    <h1 className="text-3xl font-bold text-foreground mb-2">John Smith</h1>
-                    <div className="flex items-center justify-center gap-4 text-sm text-muted-foreground flex-wrap">
-                      <span>📧 john.smith@email.com</span>
-                      <span>📱 +1 (555) 123-4567</span>
-                      <span>📍 New York, NY</span>
-                    </div>
-                  </div>
+          <div className="bg-muted/10 overflow-y-auto">
+            <div className="p-12 max-w-4xl mx-auto">
+              {/* Header */}
+              <div className="text-center border-b border-border pb-6 mb-8">
+                <h1 className="text-4xl font-bold text-foreground mb-4">John Smith</h1>
+                <div className="flex items-center justify-center gap-6 text-sm text-muted-foreground flex-wrap">
+                  <span className="flex items-center gap-2">
+                    <span className="text-primary">📧</span> john.smith@email.com
+                  </span>
+                  <span className="flex items-center gap-2">
+                    <span className="text-primary">📱</span> +1 (555) 123-4567
+                  </span>
+                  <span className="flex items-center gap-2">
+                    <span className="text-primary">📍</span> New York, NY
+                  </span>
+                </div>
+              </div>
 
-                  {/* Summary */}
-                  <div className="space-y-2">
-                    <h2 className="text-xl font-bold text-foreground flex items-center gap-2">
-                      <span className="text-primary">▪</span> Professional Summary
-                    </h2>
-                    <p className="text-sm text-muted-foreground leading-relaxed italic">
-                      [Summary section missing - see feedback]
-                    </p>
-                  </div>
+              {/* Summary */}
+              <div className="mb-8">
+                <h2 className="text-xl font-bold text-foreground mb-3 flex items-center gap-2">
+                  <span className="text-primary">■</span> Professional Summary
+                </h2>
+                <p className="text-sm text-muted-foreground leading-relaxed italic pl-6">
+                  [Summary section missing - see feedback]
+                </p>
+              </div>
 
-                  {/* Experience */}
-                  <div className="space-y-3">
-                    <h2 className="text-xl font-bold text-foreground flex items-center gap-2">
-                      <span className="text-primary">▪</span> Experience
-                    </h2>
-                    <div className="space-y-4">
-                      <div>
-                        <div className="flex justify-between items-start mb-1">
-                          <h3 className="font-semibold text-foreground">Senior Software Engineer</h3>
-                          <span className="text-sm text-muted-foreground">2020 - Present</span>
-                        </div>
-                        <p className="text-sm text-primary mb-2">Tech Company Inc.</p>
-                        <ul className="list-disc list-inside space-y-1 text-sm text-foreground">
-                          <li>Led development of key features for main product</li>
-                          <li>Managed team of 5 junior developers</li>
-                          <li>Improved system performance by 40%</li>
-                        </ul>
-                      </div>
-                      <div>
-                        <div className="flex justify-between items-start mb-1">
-                          <h3 className="font-semibold text-foreground">Software Developer</h3>
-                          <span className="text-sm text-muted-foreground">2018 - 2020</span>
-                        </div>
-                        <p className="text-sm text-primary mb-2">StartUp Solutions</p>
-                        <ul className="list-disc list-inside space-y-1 text-sm text-foreground">
-                          <li>Developed mobile applications using React Native</li>
-                          <li>Collaborated with design team on UI/UX improvements</li>
-                        </ul>
-                      </div>
+              {/* Experience */}
+              <div className="mb-8">
+                <h2 className="text-xl font-bold text-foreground mb-4 flex items-center gap-2">
+                  <span className="text-primary">■</span> Experience
+                </h2>
+                <div className="space-y-6 pl-6">
+                  <div>
+                    <div className="flex justify-between items-start mb-2">
+                      <h3 className="font-bold text-foreground">Senior Software Engineer</h3>
+                      <span className="text-sm text-muted-foreground">2020 - Present</span>
                     </div>
+                    <p className="text-sm text-primary mb-3">Tech Company Inc.</p>
+                    <ul className="list-disc list-inside space-y-1 text-sm text-foreground">
+                      <li>Led development of key features for main product</li>
+                      <li>Managed team of 5 junior developers</li>
+                      <li>Improved system performance by 40%</li>
+                    </ul>
                   </div>
-
-                  {/* Education */}
-                  <div className="space-y-3">
-                    <h2 className="text-xl font-bold text-foreground flex items-center gap-2">
-                      <span className="text-primary">▪</span> Education
-                    </h2>
-                    <div>
-                      <div className="flex justify-between items-start mb-1">
-                        <h3 className="font-semibold text-foreground">Bachelor of Science</h3>
-                        <span className="text-sm text-muted-foreground">2014 - 2018</span>
-                      </div>
-                      <p className="text-sm text-muted-foreground">University of Technology</p>
-                      <p className="text-sm text-muted-foreground italic">[Field of study missing - see feedback]</p>
+                  <div>
+                    <div className="flex justify-between items-start mb-2">
+                      <h3 className="font-bold text-foreground">Software Developer</h3>
+                      <span className="text-sm text-muted-foreground">2018 - 2020</span>
                     </div>
-                  </div>
-
-                  {/* Skills */}
-                  <div className="space-y-3">
-                    <h2 className="text-xl font-bold text-foreground flex items-center gap-2">
-                      <span className="text-primary">▪</span> Skills
-                    </h2>
-                    <div className="flex flex-wrap gap-2">
-                      <span className="px-3 py-1 bg-accent text-sm rounded-full">JavaScript</span>
-                      <span className="px-3 py-1 bg-accent text-sm rounded-full">React</span>
-                      <span className="px-3 py-1 bg-accent text-sm rounded-full">Node.js</span>
-                    </div>
-                    <p className="text-xs text-destructive italic">[Skills section needs expansion - see feedback]</p>
+                    <p className="text-sm text-primary mb-3">StartUp Solutions</p>
+                    <ul className="list-disc list-inside space-y-1 text-sm text-foreground">
+                      <li>Developed mobile applications using React Native</li>
+                      <li>Collaborated with design team on UI/UX improvements</li>
+                    </ul>
                   </div>
                 </div>
-              </Card>
+              </div>
+
+              {/* Education */}
+              <div className="mb-8">
+                <h2 className="text-xl font-bold text-foreground mb-4 flex items-center gap-2">
+                  <span className="text-primary">■</span> Education
+                </h2>
+                <div className="pl-6">
+                  <div className="flex justify-between items-start mb-2">
+                    <h3 className="font-bold text-foreground">Bachelor of Science</h3>
+                    <span className="text-sm text-muted-foreground">2014 - 2018</span>
+                  </div>
+                  <p className="text-sm text-muted-foreground mb-1">University of Technology</p>
+                  <p className="text-sm text-muted-foreground italic">[Field of study missing - see feedback]</p>
+                </div>
+              </div>
+
+              {/* Skills */}
+              <div>
+                <h2 className="text-xl font-bold text-foreground mb-4 flex items-center gap-2">
+                  <span className="text-primary">■</span> Skills
+                </h2>
+                <div className="pl-6">
+                  <div className="flex flex-wrap gap-3 mb-3">
+                    <span className="px-4 py-2 bg-primary/10 text-foreground text-sm rounded-md font-medium">JavaScript</span>
+                    <span className="px-4 py-2 bg-primary/10 text-foreground text-sm rounded-md font-medium">React</span>
+                    <span className="px-4 py-2 bg-primary/10 text-foreground text-sm rounded-md font-medium">Node.js</span>
+                  </div>
+                  <p className="text-sm text-destructive italic">[Skills section needs expansion - see feedback]</p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
