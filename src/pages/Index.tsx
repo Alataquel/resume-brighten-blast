@@ -1,24 +1,17 @@
 import { useState, useEffect } from "react";
-import { CVDashboard } from "@/components/CVDashboard";
+import { UploadInterface } from "@/components/UploadInterface";
 import { LoadingState } from "@/components/LoadingState";
 import { GradingSection } from "@/components/GradingSection";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { cn } from "@/lib/utils";
 
-type AppState = "dashboard" | "loading" | "results";
+type AppState = "upload" | "loading" | "results";
 
 const Index = () => {
-  const [appState, setAppState] = useState<AppState>("dashboard");
+  const [appState, setAppState] = useState<AppState>("upload");
   const [selectedCV, setSelectedCV] = useState<string | null>(null);
-  const [highlightedSection, setHighlightedSection] = useState<string | null>(null);
 
-  const handleSelectCV = (id: string) => {
-    setSelectedCV(id);
-    setAppState("loading");
-  };
-
-  const handleUploadNew = (file: File) => {
+  const handleUpload = (file: File) => {
     setSelectedCV(file.name);
     setAppState("loading");
   };
@@ -34,9 +27,9 @@ const Index = () => {
     }
   }, [appState]);
 
-  // Show dashboard view
-  if (appState === "dashboard") {
-    return <CVDashboard onSelectCV={handleSelectCV} onUploadNew={handleUploadNew} />;
+  // Show upload view
+  if (appState === "upload") {
+    return <UploadInterface onUpload={handleUpload} />;
   }
 
   // Show loading state
@@ -55,7 +48,7 @@ const Index = () => {
               <Button
                 variant="ghost"
                 size="sm"
-                onClick={() => setAppState("dashboard")}
+                onClick={() => setAppState("upload")}
               >
                 ← Back
               </Button>
@@ -109,15 +102,12 @@ const Index = () => {
                   {
                     text: "LinkedIn profile is not linked.",
                     tips: ["Add your LinkedIn URL to increase professional credibility"],
-                    highlightId: "contact-linkedin",
                   },
                   {
                     text: "Consider using your real name in the email address for a more professional appearance.",
                     tips: ["Professional email addresses help recruiters remember you"],
-                    highlightId: "contact-email",
                   },
                 ]}
-                onHighlight={setHighlightedSection}
               />
 
               {/* Experiences Section */}
@@ -136,10 +126,8 @@ const Index = () => {
                   {
                     text: "Some descriptions in your work experience section lack a professional tone.",
                     tips: ["Use action verbs and quantifiable achievements to enhance impact"],
-                    highlightId: "experience-tone",
                   },
                 ]}
-                onHighlight={setHighlightedSection}
               />
 
               {/* Education Section */}
@@ -157,10 +145,8 @@ const Index = () => {
                   {
                     text: "Field of study is missing in the education section.",
                     tips: ["Always include your major or field of study for clarity"],
-                    highlightId: "education-field",
                   },
                 ]}
-                onHighlight={setHighlightedSection}
               />
 
               {/* Skills Section */}
@@ -174,10 +160,8 @@ const Index = () => {
                   {
                     text: "Your skills section is not within the standard range.",
                     tips: ["Include 6-12 relevant skills for optimal presentation"],
-                    highlightId: "skills-range",
                   },
                 ]}
-                onHighlight={setHighlightedSection}
               />
 
               {/* Summary Section */}
@@ -191,11 +175,9 @@ const Index = () => {
                   {
                     text: "Personal summary or objective is missing.",
                     tips: ["A strong summary can set the tone for your entire resume"],
-                    highlightId: "summary-missing",
                   },
                 ]}
                 suggestedContent="Founder and CEO with experience in AI-driven solutions for job applications. Skilled in financial analysis and management consulting, having worked with early-stage startups and corporate giants. Successfully led the development and execution of strategic initiatives at Jobsi, enhancing user engagement and operational efficiency."
-                onHighlight={setHighlightedSection}
               />
             </div>
           </div>
@@ -209,24 +191,14 @@ const Index = () => {
                   <div className="text-center border-b-2 border-primary pb-4">
                     <h1 className="text-3xl font-bold text-foreground mb-2">John Smith</h1>
                     <div className="flex items-center justify-center gap-4 text-sm text-muted-foreground flex-wrap">
-                      <span className={cn(
-                        "transition-all",
-                        highlightedSection === "contact-email" && "bg-red-100 px-2 py-1 rounded ring-2 ring-red-400"
-                      )}>📧 john.smith@email.com</span>
+                      <span>📧 john.smith@email.com</span>
                       <span>📱 +1 (555) 123-4567</span>
                       <span>📍 New York, NY</span>
-                      <span className={cn(
-                        "transition-all",
-                        highlightedSection === "contact-linkedin" && "bg-red-100 px-2 py-1 rounded ring-2 ring-red-400 text-red-700"
-                      )}>{highlightedSection === "contact-linkedin" ? "🔗 [LinkedIn missing]" : ""}</span>
                     </div>
                   </div>
 
                   {/* Summary */}
-                  <div className={cn(
-                    "space-y-2 transition-all",
-                    highlightedSection === "summary-missing" && "bg-red-100 p-3 rounded ring-2 ring-red-400"
-                  )}>
+                  <div className="space-y-2">
                     <h2 className="text-xl font-bold text-foreground flex items-center gap-2">
                       <span className="text-primary">▪</span> Professional Summary
                     </h2>
@@ -241,10 +213,7 @@ const Index = () => {
                       <span className="text-primary">▪</span> Experience
                     </h2>
                     <div className="space-y-4">
-                      <div className={cn(
-                        "transition-all",
-                        highlightedSection === "experience-tone" && "bg-red-100 p-3 rounded ring-2 ring-red-400"
-                      )}>
+                      <div>
                         <div className="flex justify-between items-start mb-1">
                           <h3 className="font-semibold text-foreground">Senior Software Engineer</h3>
                           <span className="text-sm text-muted-foreground">2020 - Present</span>
@@ -275,10 +244,7 @@ const Index = () => {
                     <h2 className="text-xl font-bold text-foreground flex items-center gap-2">
                       <span className="text-primary">▪</span> Education
                     </h2>
-                    <div className={cn(
-                      "transition-all",
-                      highlightedSection === "education-field" && "bg-red-100 p-3 rounded ring-2 ring-red-400"
-                    )}>
+                    <div>
                       <div className="flex justify-between items-start mb-1">
                         <h3 className="font-semibold text-foreground">Bachelor of Science</h3>
                         <span className="text-sm text-muted-foreground">2014 - 2018</span>
@@ -289,10 +255,7 @@ const Index = () => {
                   </div>
 
                   {/* Skills */}
-                  <div className={cn(
-                    "space-y-3 transition-all",
-                    highlightedSection === "skills-range" && "bg-red-100 p-3 rounded ring-2 ring-red-400"
-                  )}>
+                  <div className="space-y-3">
                     <h2 className="text-xl font-bold text-foreground flex items-center gap-2">
                       <span className="text-primary">▪</span> Skills
                     </h2>
